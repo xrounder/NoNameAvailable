@@ -5,6 +5,9 @@ public class Start {
 		
 		VM vm = new VM();
 		
+		vm.memory[0] = vm.ADD + (0 << 4) + (1 << 8);
+		
+		System.out.println(vm.memory[0]);
 		vm.startVM();
 
 	}
