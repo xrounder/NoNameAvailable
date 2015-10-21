@@ -15,23 +15,37 @@ public class VM {
 	final int JIH = 11;
 	final int JSR = 12;
 	final int RTS = 13;
-	
-	int[] memory= new int[4096];
+
+	int[] memory = new int[4096];
 	int[] register = new int[16];
 	
-	int PC = 0;
-			
-			
 	
+	int PC = 0;
 
 	void startVM() {
 
 		do {
-			
-			
-			
-			
-			
+
+			switch (CMD) {
+
+			case NOP:break;
+			case LOAD:break;
+			case MOV:break;
+			case ADD:break;
+			case SUP:break;
+			case MUL:break;
+			case DIV:break;
+			case PUSH:break;
+			case POP:break;
+			case JMP:break;
+			case JIZ:break;
+			case JIH:break;
+			case JSR:break;
+			case RTS:break;
+
+			default:
+
+			}
 
 		} while (true);
 
