@@ -5,10 +5,13 @@ public class Start {
 		
 		VM vm = new VM();
 		
-		vm.memory[0] = vm.ADD + (0 << 4) + (1 << 8);
+		vm.memory[0] = vm.LOAD + (600 << 4);
 		
-		System.out.println(vm.memory[0]);
+		vm.memory[1] = vm.MOV + (0 << 4) + (5 << 8);
+		
+	
 		vm.startVM();
+		System.out.println(vm.register[0]);
 
 	}
 
