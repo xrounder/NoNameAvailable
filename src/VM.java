@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Stack;
 
 public class VM {
 	
@@ -16,8 +18,12 @@ public class VM {
 	public final int JSR = 12;
 	public final int RTS = 13;
 
+	//Programmablaufspeicher
 	int[] memory = new int[4096];
+	//Register
 	int[] register = new int[16];
+	//Stack (für?)
+	Stack<Integer> stack = new Stack<>();
 	
 	private int registerIndex = 0;
 	public int getRegisterIndex() {
@@ -103,6 +109,7 @@ public class VM {
 	private int toMem = 0;
 	private int wert = 0;
 	private int cmd = 0;
+	private int pcounterLine = 0;
 
 	void startVM() {
 		
@@ -129,13 +136,26 @@ public class VM {
 			//chris
 			case MUL:break;
 			//chris
-			case DIV:break;
+			case DIV:
+				register[idefix]+=register[idy];
+				pcounter++; 
+				break;
 			//miguel
-			case PUSH:break;
+			case PUSH:
+				stack.push(register[idefix]);
+				pcounter++; 
+				break;
 			//miguel
-			case POP:break;
+			case POP:
+				register[idefix] = stack.pop();
+				pcounter++; 
+				break;
 			//miguel
-			case JMP:break;
+			case JMP:
+				pcounterLine = pcounter;
+				pcounter = wert;
+				
+				break;
 			//miguel
 			case JIZ:break;
 			//marcel
