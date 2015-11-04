@@ -26,78 +26,8 @@ public class VM {
 	Stack<Integer> stack = new Stack<>();
 	
 	private int registerIndex = 0;
-	public int getRegisterIndex() {
-		return registerIndex;
-	}
 
-	public void setRegisterIndex(int registerIndex) {
-		this.registerIndex = registerIndex;
-	}
-
-	public int getOpcode() {
-		return opcode;
-	}
-
-	public void setOpcode(int opcode) {
-		this.opcode = opcode;
-	}
-
-	public int getPcounter() {
-		return pcounter;
-	}
-
-	public void setPcounter(int pcounter) {
-		this.pcounter = pcounter;
-	}
-
-	public int getIdefix() {
-		return idefix;
-	}
-
-	public void setIdefix(int idefix) {
-		this.idefix = idefix;
-	}
-
-	public int getIdy() {
-		return idy;
-	}
-
-	public void setIdy(int idy) {
-		this.idy = idy;
-	}
-
-	public int getFromMem() {
-		return fromMem;
-	}
-
-	public void setFromMem(int fromMem) {
-		this.fromMem = fromMem;
-	}
-
-	public int getToMem() {
-		return toMem;
-	}
-
-	public void setToMem(int toMem) {
-		this.toMem = toMem;
-	}
-
-	public int getWert() {
-		return wert;
-	}
-
-	public void setWert(int wert) {
-		this.wert = wert;
-	}
-
-	public int getCmd() {
-		return cmd;
-	}
-
-	public void setCmd(int cmd) {
-		this.cmd = cmd;
-	}
-
+	
 	//das GANZE
 	private int opcode = 0;
 	private int pcounter = 0;
@@ -128,17 +58,30 @@ public class VM {
 				pcounter++; 
 				break;
 			case MOV:
-				//chris
+				
 				break;
-			case ADD:break;
+			case ADD:
+				register[idefix]+=register[idy];
+				pcounter++;
+				break;
 			//chris
-			case SUP:break;
+			case SUP:
+				register[idefix]-=register[idy];
+				pcounter++;
+				break;
 			//chris
-			case MUL:break;
+			case MUL:
+				register[idefix]*=register[idy];
+				pcounter++;
+				break;
 			//chris
 			case DIV:
-				register[idefix]+=register[idy];
-				pcounter++; 
+				try{
+				register[idefix]/=register[idy];
+				}catch(Exception ex){
+					ex.printStackTrace();					
+				}
+				pcounter++;
 				break;
 			//miguel
 			case PUSH:
@@ -157,9 +100,21 @@ public class VM {
 				
 				break;
 			//miguel
-			case JIZ:break;
+			case JIZ:
+			if(register[0]==0){
+				
+				
+			}
+			break;
+			
 			//marcel
-			case JIH:break;
+			case JIH:
+				if(register[0]>0){
+					
+					
+				}
+				break;
+			
 			//marcel
 			case JSR:break;
 			//marcel
