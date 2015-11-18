@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
+
 public class VM {
 	
 	public final int NOP = 0;
@@ -22,8 +23,9 @@ public class VM {
 	int[] memory = new int[4096];
 	//Register
 	int[] register = new int[16];
-	//Stack (für?)
-	Stack<Integer> stack = new Stack<>();
+	//Stack
+	FastVector stack = new FastVector(25000000,1000);
+	FastVector routineStack = new FastVector(25000000, 1000);
 	
 	private int registerIndex = 0;
 
@@ -39,7 +41,8 @@ public class VM {
 	private int toMem = 0;
 	private int wert = 0;
 	private int cmd = 0;
-	private int pcounterLine = 0;
+	private int stackCounter = 0;
+	private int routineCounter = 0;
 
 	void startVM() {
 		
@@ -50,31 +53,51 @@ public class VM {
 			
 			switch (cmd) {
 
+			//does absolutely nothing!
 			case NOP:
 				pcounter++;
 				break;
+				
+			//Load value in R(0)	
 			case LOAD:				
 				register[0]= wert;
 				pcounter++; 
 				break;
+				
+			// Move, flagged with fromMem & toMem (Operate in Register/Memory !)	
 			case MOV:
+				if (fromMem ==0 && toMem ==0){
+					register[idefix]=register[idy];
+				}else if (fromMem==1 && toMem ==0){
+					register[idefix]=memory[idy];
+				}else if (fromMem ==0 && toMem ==1){
+					memory[idefix]=register[idy];
+				}else //fromMem ==1 && toMem == 1
+				{
+					memory[idefix]=memory[idy];
+					
+				}
 				
 				break;
+			//add R(X) = R(X)+R(Y)	
 			case ADD:
 				register[idefix]+=register[idy];
 				pcounter++;
 				break;
-			//chris
+				
+			//subtract R(X)=R(X)-R(Y)
 			case SUP:
 				register[idefix]-=register[idy];
 				pcounter++;
 				break;
-			//chris
+				
+			//Multiply R(X)=R(X)*R(Y)
 			case MUL:
 				register[idefix]*=register[idy];
 				pcounter++;
 				break;
-			//chris
+				
+			//Divide R(X)=R(X)/R(Y)
 			case DIV:
 				try{
 				register[idefix]/=register[idy];
@@ -83,43 +106,55 @@ public class VM {
 				}
 				pcounter++;
 				break;
-			//miguel
+				
+			//Push the Value in R(X) on the Stack
 			case PUSH:
-				stack.push(register[idefix]);
+				stack.setValue(stackCounter++, (register[idefix]));
 				pcounter++; 
 				break;
-			//miguel
+				
+			//Pop a Value of the Stack, save it in R(X)
 			case POP:
-				register[idefix] = stack.pop();
+				register[idefix] = stack.getValue(stackCounter--);
 				pcounter++; 
 				break;
-			//miguel
+				
+			//Jump the f*ck up!
 			case JMP:
-				pcounterLine = pcounter;
 				pcounter = wert;
 				
 				break;
-			//miguel
+				
+			//Jump (only if Register[0] is exactly 0!)
 			case JIZ:
 			if(register[0]==0){
-				
+				pcounter = wert;
 				
 			}
 			break;
 			
-			//marcel
+			//Jump (only if Register[0] is > 0!)
 			case JIH:
 				if(register[0]>0){
-					
+					pcounter = wert;
 					
 				}
 				break;
 			
-			//marcel
-			case JSR:break;
-			//marcel
-			case RTS:break;
-			//marcel
+			//Jump to Subroutine(pcounter push on stack!)
+			case JSR:
+				routineStack.setValue(routineCounter++, pcounter);
+				pcounter=wert;
+				
+				break;
+				
+			//Return from Subroutine(getting pcounter per pop from stack!)
+			case RTS:
+				pcounter=routineStack.getValue(routineCounter--);
+				
+	
+				break;
+			
 
 			default:
 				break;
