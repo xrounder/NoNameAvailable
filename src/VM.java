@@ -1,9 +1,8 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
-
 public class VM {
-	
+
 	public final int NOP = 0;
 	public final int LOAD = 1;
 	public final int MOV = 2;
@@ -19,165 +18,160 @@ public class VM {
 	public final int JSR = 12;
 	public final int RTS = 13;
 
-	//Programmablaufspeicher
+	// Programmablaufspeicher
 	int[] memory = new int[4096];
-	//Register
+	// Register
 	int[] register = new int[16];
-	//Stack
-	FastVector stack = new FastVector(25000000,1000);
+	// Stack
+	FastVector stack = new FastVector(25000000, 1000);
 	FastVector routineStack = new FastVector(25000000, 1000);
-	
-	private int registerIndex = 0;
 
-	
-	//das GANZE
+	// das GANZE
 	private int opcode = 0;
 	private int pcounter = 0;
-	//Index von Rx
-	private int idefix = 0;
-	//Index von Ry
-	private int idy = 0;
+	// Index von Rx
+	private int index_X = 0;
+	// Index von Ry
+	private int index_Y = 0;
 	private int fromMem = 0;
 	private int toMem = 0;
 	private int wert = 0;
-	private int cmd = 0;
-	private int stackCounter = 0;
-	private int routineCounter = 0;
+	private int command = 0;
+	private int stackIndex = 0;
+	private int routineIndex = 0;
 
 	void startVM() {
-		
+
 		do {
 
 			splitOpcode();
-			
-			
-			switch (cmd) {
 
-			//does absolutely nothing!
+			switch (command) {
+
+			// does absolutely nothing!
 			case NOP:
 				pcounter++;
 				break;
-				
-			//Load value in R(0)	
-			case LOAD:				
-				register[0]= wert;
-				pcounter++; 
+
+			// Load value in R(0)
+			case LOAD:
+				register[0] = wert;
+				pcounter++;
 				break;
-				
-			// Move, flagged with fromMem & toMem (Operate in Register/Memory !)	
+
+			// Move, flagged with fromMem & toMem (Operate in Register/Memory !)
 			case MOV:
-				if (fromMem ==0 && toMem ==0){
-					register[idefix]=register[idy];
-				}else if (fromMem==1 && toMem ==0){
-					register[idefix]=memory[idy];
-				}else if (fromMem ==0 && toMem ==1){
-					memory[idefix]=register[idy];
-				}else //fromMem ==1 && toMem == 1
+				if (fromMem == 0 && toMem == 0) {
+					register[index_X] = register[index_Y];
+				} else if (fromMem == 1 && toMem == 0) {
+					register[index_X] = memory[register[index_Y]];
+				} else if (fromMem == 0 && toMem == 1) {
+					memory[register[index_X]] = register[index_Y];
+				} else // fromMem ==1 && toMem == 1
 				{
-					memory[idefix]=memory[idy];
-					
+					memory[register[index_X]] = memory[register[index_Y]];
+
 				}
-				
+
 				break;
-			//add R(X) = R(X)+R(Y)	
+			// add R(X) = R(X)+R(Y)
 			case ADD:
-				register[idefix]+=register[idy];
+				register[index_X] += register[index_Y];
 				pcounter++;
 				break;
-				
-			//subtract R(X)=R(X)-R(Y)
+
+			// subtract R(X)=R(X)-R(Y)
 			case SUP:
-				register[idefix]-=register[idy];
+				register[index_X] -= register[index_Y];
 				pcounter++;
 				break;
-				
-			//Multiply R(X)=R(X)*R(Y)
+
+			// Multiply R(X)=R(X)*R(Y)
 			case MUL:
-				register[idefix]*=register[idy];
+				register[index_X] *= register[index_Y];
 				pcounter++;
 				break;
-				
-			//Divide R(X)=R(X)/R(Y)
+
+			// Divide R(X)=R(X)/R(Y)
 			case DIV:
-				try{
-				register[idefix]/=register[idy];
-				}catch(Exception ex){
-					ex.printStackTrace();					
+				try {
+					register[index_X] /= register[index_Y];
+				} catch (Exception ex) {
+					ex.printStackTrace();
 				}
 				pcounter++;
 				break;
-				
-			//Push the Value in R(X) on the Stack
+
+			// Push the Value in R(X) on the Stack
 			case PUSH:
-				stack.setValue(stackCounter++, (register[idefix]));
-				pcounter++; 
+				stack.setValue(stackIndex++, (register[index_X]));
+				pcounter++;
 				break;
-				
-			//Pop a Value of the Stack, save it in R(X)
+
+			// Pop a Value of the Stack, save it in R(X)
 			case POP:
-				register[idefix] = stack.getValue(stackCounter--);
-				pcounter++; 
+				register[index_X] = stack.getValue(stackIndex--);
+				pcounter++;
 				break;
-				
-			//Jump the f*ck up!
+
+			// Jump the f*ck up!
 			case JMP:
 				pcounter = wert;
-				
+
 				break;
-				
-			//Jump (only if Register[0] is exactly 0!)
+
+			// Jump (only if Register[0] is exactly 0!)
 			case JIZ:
-			if(register[0]==0){
-				pcounter = wert;
-				
-			}
-			break;
-			
-			//Jump (only if Register[0] is > 0!)
-			case JIH:
-				if(register[0]>0){
+				if (register[0] == 0) {
 					pcounter = wert;
-					
+
 				}
 				break;
-			
-			//Jump to Subroutine(pcounter push on stack!)
+
+			// Jump (only if Register[0] is > 0!)
+			case JIH:
+				if (register[0] > 0) {
+					pcounter = wert;
+
+				}
+				break;
+
+			// Jump to Subroutine(pcounter push on stack!)
 			case JSR:
-				routineStack.setValue(routineCounter++, pcounter);
-				pcounter=wert;
-				
+				routineStack.setValue(routineIndex++, pcounter);
+				pcounter = wert;
+
 				break;
-				
-			//Return from Subroutine(getting pcounter per pop from stack!)
+
+			// Return from Subroutine(getting pcounter per pop from stack!)
 			case RTS:
-				pcounter=routineStack.getValue(routineCounter--);
-				
-	
+				pcounter = routineStack.getValue(routineIndex--);
+
 				break;
-			
 
 			default:
 				break;
 
 			}
-			
-			
+
 		} while (false);
 
 	}
 
+	/**
+	 * splits the opCode in it's fragments
+	 */
 	private void splitOpcode() {
-		
+
 		opcode = memory[pcounter];
-		
-		cmd = opcode & 0xF;
+
+		command = opcode & 0xF;
 		wert = (opcode >> 4);
-		idefix = (opcode >> 4) & 0xF;
-		idy = (opcode >> 8) & 0xF;
+		index_X = (opcode >> 4) & 0xF;
+		index_Y = (opcode >> 8) & 0xF;
 		fromMem = (opcode >> 12) & 0x1;
 		toMem = (opcode >> 13) & 0x1;
-		
+
 	}
-	
 
 }

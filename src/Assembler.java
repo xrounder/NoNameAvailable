@@ -13,11 +13,13 @@ public class Assembler {
 	    BufferedReader br = new BufferedReader(fr);
 	    String currentLine =null;
 	    
+	    
+	    //reads the given text-file, line by line, until text-file is finished
 	    do{
 	    	
 	    	
 	    currentLine = br.readLine();
-	    if(currentLine!=null)System.out.println(currentLine);
+	    
 	    
 	    
 	    }while(currentLine!=null);
