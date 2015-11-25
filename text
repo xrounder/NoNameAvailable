@@ -1,0 +1,6 @@
+LOAD 15
+MOV 0,5
+MOV (0),5
+MOV 0,(6)
+MOV (0),(6)
+ADD 0,5
