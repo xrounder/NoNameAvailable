@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class VM {
+public class VM extends Thread {
 
 	public final int NOP = 0;
 	public final int LOAD = 1;
@@ -39,8 +39,9 @@ public class VM {
 	private int command = 0;
 	private int stackIndex = 0;
 	private int routineIndex = 0;
+	private boolean runner = true;
 
-	void startVM() {
+	public void run() {
 
 		do {
 
@@ -72,7 +73,7 @@ public class VM {
 					memory[register[index_X]] = memory[register[index_Y]];
 
 				}
-
+				pcounter++;
 				break;
 			// add R(X) = R(X)+R(Y)
 			case ADD:
@@ -145,8 +146,10 @@ public class VM {
 
 			// Return from Subroutine(getting pcounter per pop from stack!)
 			case RTS:
-				pcounter = routineStack.getValue(routineIndex--);
-
+				if (routineIndex != 0)
+					pcounter = routineStack.getValue(routineIndex--);
+				else
+					runner = false;
 				break;
 
 			default:
@@ -154,7 +157,7 @@ public class VM {
 
 			}
 
-		} while (false);
+		} while (runner);
 
 	}
 
