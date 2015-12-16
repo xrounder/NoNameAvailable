@@ -111,7 +111,7 @@ public class VM extends Thread {
 
 			// Pop a Value of the Stack, save it in R(X)
 			case POP:
-				register[index_X] = stack.getValue(stackIndex--);
+				register[index_X] = stack.getValue(--stackIndex);
 				pcounter++;
 				break;
 

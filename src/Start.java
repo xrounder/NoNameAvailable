@@ -7,7 +7,7 @@ public class Start {
 		Assembler as = new Assembler();
 
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -15,14 +15,14 @@ public class Start {
 		as.start(vm);
 		for (int i = 0; i < vm.register.length; i++) {
 
-			System.out.println(vm.register[i]);
+			System.out.println("Register["+i+"] = "+vm.register[i]);
 		}
 
+		for (int i = 0; i < 20; i++) {
+
+			System.out.println("Memory["+i+"] = "+vm.memory[i]);
+		}
 		
-		System.out.println(vm.memory[0]);
-		System.out.println(vm.memory[1]);
-		System.out.println(vm.memory[2]);
-		System.out.println(vm.memory[3]);
 
 	}
 

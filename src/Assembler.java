@@ -11,7 +11,7 @@ public class Assembler {
 
 		try {
 
-			BufferedReader br = new BufferedReader(new FileReader("Z:/git/NoNameAvailable/text.txt"));
+			BufferedReader br = new BufferedReader(new FileReader("Z:/git/NoNameAvailable/test.txt"));
 			// BufferedReader br = new BufferedReader(new
 			// FileReader("C:/Users/Endze/git/NoNameAvailable/text"));
 
@@ -25,7 +25,7 @@ public class Assembler {
 
 				if (currentLine != null) {
 					vm = implementLineInVM(vm, currentLine);
-					//System.out.println(currentLine);
+					// System.out.println(currentLine);
 				}
 
 			} while (currentLine != null);
@@ -64,8 +64,16 @@ public class Assembler {
 		int index_Y = 0b0000;
 		int toMem = 0b0000;
 		int fromMem = 0b0000;
-		String[] splittetLine = currentLine.split(" ");
-		String[] indexSplit = splittetLine[1].split(","); //TODO RTS kann nicht gesplittet werden
+		String[] indexSplit;
+		String[] splittetLine = new String[2];
+
+		if (currentLine.contains("NOP") || currentLine.contains("RTS")) {
+			splittetLine[0] = currentLine;
+		} else {
+			splittetLine = currentLine.split(" ");
+		}
+
+		//System.out.println(splittetLine[1]);
 
 		// System.out.println(command[0]);
 		// System.out.println(command[1]);
@@ -77,37 +85,38 @@ public class Assembler {
 			break;
 		case "LOAD":
 			commandCode = 0b0001;
+
 			value = Integer.parseInt(splittetLine[1]);
 			opcode = commandCode + (value << 4);
 			break;
 		case "MOV":
 			commandCode = 0b0010;
-
+			indexSplit = splittetLine[1].split(",");
 			if (splittetLine[1].matches("^[\\d][,][\\d]$")) {
 				toMem = 0b0;
 				fromMem = 0b0;
-				index_X = Integer.parseInt(indexSplit[0]);
-				index_Y = Integer.parseInt(indexSplit[1]);
+				index_X = Integer.parseInt(indexSplit[1]);
+				index_Y = Integer.parseInt(indexSplit[0]);
 			} else if (splittetLine[1].matches("^[(][\\d][)][,][\\d]$")) {
 				toMem = 0b0;
 				fromMem = 0b1;
 				indexSplit[0] = indexSplit[0].substring(1, indexSplit[0].length() - 1);
-				index_X = Integer.parseInt(indexSplit[0]);
-				index_Y = Integer.parseInt(indexSplit[1]);
+				index_X = Integer.parseInt(indexSplit[1]);
+				index_Y = Integer.parseInt(indexSplit[0]);
 			} else if (splittetLine[1].matches("^[\\d][,][(][\\d][)]$")) {
 				toMem = 0b1;
 				fromMem = 0b0;
 				indexSplit[1] = indexSplit[1].substring(1, indexSplit[1].length() - 1);
-				index_X = Integer.parseInt(indexSplit[0]);
-				index_Y = Integer.parseInt(indexSplit[1]);
+				index_X = Integer.parseInt(indexSplit[1]);
+				index_Y = Integer.parseInt(indexSplit[0]);
 			} else {
 				// case "^[(][\\d][)][,][(][\\d][)]$"
 				toMem = 0b1;
 				fromMem = 0b1;
 				indexSplit[0] = indexSplit[0].substring(1, indexSplit[0].length() - 1);
 				indexSplit[1] = indexSplit[1].substring(1, indexSplit[1].length() - 1);
-				index_X = Integer.parseInt(indexSplit[0]);
-				index_Y = Integer.parseInt(indexSplit[1]);
+				index_X = Integer.parseInt(indexSplit[1]);
+				index_Y = Integer.parseInt(indexSplit[0]);
 			}
 
 			opcode = commandCode + (index_X << 4) + (index_Y << 8) + (fromMem << 12) + (toMem << 13);
@@ -115,7 +124,7 @@ public class Assembler {
 			break;
 		case "ADD":
 			commandCode = 0b0011;
-
+			indexSplit = splittetLine[1].split(",");
 			index_X = Integer.parseInt(indexSplit[0]);
 			index_Y = Integer.parseInt(indexSplit[1]);
 
@@ -123,7 +132,7 @@ public class Assembler {
 			break;
 		case "SUB":
 			commandCode = 0b0100;
-
+			indexSplit = splittetLine[1].split(",");
 			index_X = Integer.parseInt(indexSplit[0]);
 			index_Y = Integer.parseInt(indexSplit[1]);
 
@@ -131,7 +140,7 @@ public class Assembler {
 			break;
 		case "MUL":
 			commandCode = 0b0101;
-
+			indexSplit = splittetLine[1].split(",");
 			index_X = Integer.parseInt(indexSplit[0]);
 			index_Y = Integer.parseInt(indexSplit[1]);
 
@@ -139,7 +148,7 @@ public class Assembler {
 			break;
 		case "DIV":
 			commandCode = 0b0110;
-
+			indexSplit = splittetLine[1].split(",");
 			index_X = Integer.parseInt(indexSplit[0]);
 			index_Y = Integer.parseInt(indexSplit[1]);
 
@@ -148,14 +157,14 @@ public class Assembler {
 		case "PUSH":
 			commandCode = 0b0111;
 
-			index_X = Integer.parseInt(indexSplit[0]);
+			index_X = Integer.parseInt(splittetLine[1]);
 
 			opcode = commandCode + (index_X << 4);
 			break;
 		case "POP":
 			commandCode = 0b1000;
 
-			index_X = Integer.parseInt(indexSplit[0]);
+			index_X = Integer.parseInt(splittetLine[1]);
 
 			opcode = commandCode + (index_X << 4);
 			break;
@@ -181,6 +190,7 @@ public class Assembler {
 			break;
 		case "RTS":
 			commandCode = 0b1101;
+
 			opcode = commandCode;
 			break;
 		default:
