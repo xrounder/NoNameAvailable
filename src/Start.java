@@ -18,7 +18,7 @@ public class Start {
 			System.out.println("Register["+i+"] = "+vm.register[i]);
 		}
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 1000; i < 1020; i++) {
 
 			System.out.println("Memory["+i+"] = "+vm.memory[i]);
 		}
