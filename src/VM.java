@@ -19,9 +19,9 @@ public class VM extends Thread {
 	public final int RTS = 13;
 
 	// Programmablaufspeicher
-	int[] memory = new int[4096];
+	volatile int[] memory = new int[4096];
 	// Register
-	int[] register = new int[16];
+	volatile int[] register = new int[16];
 	// Stack
 	FastVector stack = new FastVector(25000000, 1000);
 	FastVector routineStack = new FastVector(25000000, 1000);
@@ -73,7 +73,7 @@ public class VM extends Thread {
 					memory[register[index_X]] = memory[register[index_Y]];
 
 				}
-				pcounter++;
+ 				pcounter++;
 				break;
 			// add R(X) = R(X)+R(Y)
 			case ADD:
@@ -126,6 +126,8 @@ public class VM extends Thread {
 				if (register[0] == 0) {
 					pcounter = wert;
 
+				} else {
+					pcounter++;
 				}
 				break;
 
@@ -134,12 +136,14 @@ public class VM extends Thread {
 				if (register[0] > 0) {
 					pcounter = wert;
 
+				} else {
+					pcounter++;
 				}
 				break;
 
 			// Jump to Subroutine(pcounter push on stack!)
 			case JSR:
-				routineStack.setValue(routineIndex++, pcounter);
+				routineStack.setValue(routineIndex++, ++pcounter);
 				pcounter = wert;
 
 				break;
@@ -147,9 +151,10 @@ public class VM extends Thread {
 			// Return from Subroutine(getting pcounter per pop from stack!)
 			case RTS:
 				if (routineIndex != 0)
-					pcounter = routineStack.getValue(routineIndex--);
+					pcounter = routineStack.getValue(--routineIndex);
 				else
 					runner = false;
+				
 				break;
 
 			default:
