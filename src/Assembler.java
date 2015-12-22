@@ -11,7 +11,7 @@ public class Assembler {
 
 		try {
 
-			BufferedReader br = new BufferedReader(new FileReader("C:/Users/Endze/git/NoNameAvailable/src/test.txt"));
+			BufferedReader br = new BufferedReader(new FileReader("C:/Users/Endze/git/NoNameAvailable/src/Fibonacci.txt"));
 			// BufferedReader br = new BufferedReader(new
 			// FileReader("Z:/git/NoNameAvailable/src/Fibonacci.txt"));
 			// BufferedReader br = new BufferedReader(new

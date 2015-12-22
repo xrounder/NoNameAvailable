@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -40,12 +44,15 @@ public class VM extends Thread {
 	private int stackIndex = 0;
 	private int routineIndex = 0;
 	private boolean runner = true;
+	private int[] profiler = new int[4096];
 
 	public void run() {
 
 		do {
 
 			splitOpcode();
+			profiler[pcounter]++; // profiler counts up, when pcounter is in
+									// this line;
 
 			switch (command) {
 
@@ -73,7 +80,7 @@ public class VM extends Thread {
 					memory[register[index_X]] = memory[register[index_Y]];
 
 				}
- 				pcounter++;
+				pcounter++;
 				break;
 			// add R(X) = R(X)+R(Y)
 			case ADD:
@@ -154,7 +161,7 @@ public class VM extends Thread {
 					pcounter = routineStack.getValue(--routineIndex);
 				else
 					runner = false;
-				
+
 				break;
 
 			default:
@@ -164,6 +171,57 @@ public class VM extends Thread {
 
 		} while (runner);
 
+		// Write outputfile of Profiler
+		try {
+			profilerOutput();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void profilerOutput() throws IOException {
+
+		String toWrite = "";
+
+		File file = new File("C:/Users/Endze/git/NoNameAvailable/src/Profiler.txt");
+
+		// if file doesnt exists, then create it
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+		BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
+
+		bw.write("Anteil |Code     \t\t\t | Kommentar");
+		bw.newLine();
+		bw.write("-----------------------------------------------------------------"
+				+ "---------------------------------------------------------------");
+		bw.newLine();
+
+		for (int i = 0; i < profiler.length; i++) {
+			if (profiler[i] != 0) {
+				toWrite = "(" + getLinePercentage(i) + "%) " + Integer.toBinaryString(memory[i])
+						+ (Integer.toBinaryString(memory[i]).length() < 8 ? "\t" : "") + "\t\t\t Zeile["
+						+ (i < 10 ? "0" + i : i) + "] wurde "
+						+ (profiler[i] < 10 ? " {" + profiler[i] : "{" + profiler[i]) + "} mal ausgeführt - "
+						+ getLinePercentage(i) + "% Rechenleistung wurde hier verbraucht.";
+				bw.write(toWrite);
+				bw.newLine();
+			}
+		}
+
+		bw.close();
+	}
+
+	private float getLinePercentage(int line) {
+		float LinePercentage = 0;
+		int sum = 0;
+		for (int i = 0; i < profiler.length; i++) {
+			sum += profiler[i];
+		}
+
+		LinePercentage = 100 * ((float) profiler[line] / sum);
+		LinePercentage = (float) (Math.round(LinePercentage * 100) / 100.0);
+		return LinePercentage;
 	}
 
 	/**
