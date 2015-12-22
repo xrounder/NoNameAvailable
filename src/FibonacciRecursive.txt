@@ -1,0 +1,41 @@
+LOAD 1 // Code von Jonathan, an unseren Assembler angepasst -konnte noch nichts getestet werden, da mein Regex (MOV) (wie Chris gesagt hatte xD) bei Zahlen über 9 nicht funktioniert - aber wir alle Register benutzen müssen
+MOV 0,1
+LOAD 20
+MOV 0,2  /Counter Loop
+MOV 0,3 /20 fest
+LOAD 1000
+MOV 0,4 /Speicherstelle 1000 
+LOAD 0
+MOV 0,5
+
+MOV 5,(4) /fibo(0)
+ADD 4,1
+
+JSR 16 /Loop beginn
+SUB 2,1
+MOV 2,0
+JIH 11
+RTS
+
+MOV 3,0 /Fibo beginn {Zeile 16} 
+SUB 0,2
+JIZ 20
+JIH 23
+
+MOV 1,(4) /fibo(1) {Zeile 20}
+ADD 4,1
+RTS
+
+
+MOV 4,10 / fibo(n-1)+fibo(n-2) {Zeile23}
+SUB 10,1 / n-1
+MOV 10,11
+SUB 11,1 / n-2
+MOV (10),13
+MOV (11),14
+MOV 5,12
+ADD 12,13
+ADD 12,14
+MOV 12,(4)
+ADD 4,1
+RTS

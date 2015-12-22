@@ -11,8 +11,9 @@ public class Assembler {
 
 		try {
 
-			//BufferedReader br = new BufferedReader(new FileReader("Z:/git/NoNameAvailable/src/test.txt"));
-			BufferedReader br = new BufferedReader(new FileReader("Z:/git/NoNameAvailable/src/Fibonacci.txt"));
+			BufferedReader br = new BufferedReader(new FileReader("C:/Users/Endze/git/NoNameAvailable/src/test.txt"));
+			// BufferedReader br = new BufferedReader(new
+			// FileReader("Z:/git/NoNameAvailable/src/Fibonacci.txt"));
 			// BufferedReader br = new BufferedReader(new
 			// FileReader("C:/Users/Endze/git/NoNameAvailable/text"));
 
@@ -65,16 +66,19 @@ public class Assembler {
 		int index_Y = 0b0000;
 		int toMem = 0b0000;
 		int fromMem = 0b0000;
-		String[] indexSplit;
+		String[] indexSplit, tempLine;
 		String[] splittetLine = new String[2];
 
-		if (currentLine.contains("NOP") || currentLine.contains("RTS")) {
+		if (currentLine.contains("NOP") || currentLine.contains("RTS")) { // Bei NOP und RTS kein Split am " " vornehmen!
 			splittetLine[0] = currentLine;
+		} else if (currentLine.contains("/")) { //Hiermit können nun Kommentare im Code benutzt werden mit "/" !
+			tempLine = currentLine.split("/");
+			splittetLine = tempLine[0].split(" ");
 		} else {
 			splittetLine = currentLine.split(" ");
 		}
 
-		//System.out.println(splittetLine[1]);
+		// System.out.println(splittetLine[1]);
 
 		// System.out.println(command[0]);
 		// System.out.println(command[1]);
