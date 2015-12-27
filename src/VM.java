@@ -183,7 +183,7 @@ public class VM extends Thread {
 
 		String toWrite = "";
 
-		File file = new File("C:/Users/Endze/git/NoNameAvailable/src/Profiler.txt");
+		File file = new File("C:/Users/Christopher/git/NoNameAvailable/src/Profiler.txt");
 
 		// if file doesnt exists, then create it
 		if (!file.exists()) {

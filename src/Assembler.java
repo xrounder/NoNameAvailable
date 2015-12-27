@@ -11,7 +11,7 @@ public class Assembler {
 
 		try {
 
-			BufferedReader br = new BufferedReader(new FileReader("C:/Users/Endze/git/NoNameAvailable/src/Fibonacci.txt"));
+			BufferedReader br = new BufferedReader(new FileReader("C:/Users/Christopher/git/NoNameAvailable/src/test.txt"));
 			// BufferedReader br = new BufferedReader(new
 			// FileReader("Z:/git/NoNameAvailable/src/Fibonacci.txt"));
 			// BufferedReader br = new BufferedReader(new
@@ -97,18 +97,18 @@ public class Assembler {
 		case "MOV":
 			commandCode = 0b0010;
 			indexSplit = splittetLine[1].split(",");
-			if (splittetLine[1].matches("^[\\d][,][\\d]$")) {
+			if (splittetLine[1].matches("^\\d*,\\d*$")) {
 				toMem = 0b0;
 				fromMem = 0b0;
 				index_X = Integer.parseInt(indexSplit[1]);
 				index_Y = Integer.parseInt(indexSplit[0]);
-			} else if (splittetLine[1].matches("^[(][\\d][)][,][\\d]$")) {
+			} else if (splittetLine[1].matches("^[(]\\d*[)],\\d*$")) {
 				toMem = 0b0;
 				fromMem = 0b1;
 				indexSplit[0] = indexSplit[0].substring(1, indexSplit[0].length() - 1);
 				index_X = Integer.parseInt(indexSplit[1]);
 				index_Y = Integer.parseInt(indexSplit[0]);
-			} else if (splittetLine[1].matches("^[\\d][,][(][\\d][)]$")) {
+			} else if (splittetLine[1].matches("^\\d*,[(]\\d*[)]$")) {
 				toMem = 0b1;
 				fromMem = 0b0;
 				indexSplit[1] = indexSplit[1].substring(1, indexSplit[1].length() - 1);
