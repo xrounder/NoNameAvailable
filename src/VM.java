@@ -182,8 +182,11 @@ public class VM extends Thread {
 	private void profilerOutput() throws IOException {
 
 		String toWrite = "";
+		
+		// current directory
+			String directory = System.getProperty("user.dir") +"\\src\\";
 
-		File file = new File("C:/Users/Christopher/git/NoNameAvailable/src/Profiler.txt");
+		File file = new File(directory+"Profiler.txt");
 
 		// if file doesnt exists, then create it
 		if (!file.exists()) {

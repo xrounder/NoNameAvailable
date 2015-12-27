@@ -10,8 +10,12 @@ public class Assembler {
 	public void start(VM vm) {
 
 		try {
+			
+			// current directory
+			String directory = System.getProperty("user.dir") +"\\src\\";
+			
 
-			BufferedReader br = new BufferedReader(new FileReader("C:/Users/Christopher/git/NoNameAvailable/src/test.txt"));
+			BufferedReader br = new BufferedReader(new FileReader(directory+"test.txt"));
 			// BufferedReader br = new BufferedReader(new
 			// FileReader("Z:/git/NoNameAvailable/src/Fibonacci.txt"));
 			// BufferedReader br = new BufferedReader(new

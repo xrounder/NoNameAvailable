@@ -1,0 +1,3 @@
+LOAD 12
+MOV 0,10
+RTS
