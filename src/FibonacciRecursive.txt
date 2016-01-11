@@ -24,7 +24,6 @@ JIH 23
 
 MOV 1,(4) /fibo(1) {Zeile 20}
 ADD 4,1
-RTS
 
 
 MOV 4,10 / fibo(n-1)+fibo(n-2) {Zeile23}
