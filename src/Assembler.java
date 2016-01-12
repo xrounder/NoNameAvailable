@@ -16,10 +16,6 @@ public class Assembler {
 			
 
 			BufferedReader br = new BufferedReader(new FileReader(directory+"test.txt"));
-			// BufferedReader br = new BufferedReader(new
-			// FileReader("Z:/git/NoNameAvailable/src/Fibonacci.txt"));
-			// BufferedReader br = new BufferedReader(new
-			// FileReader("C:/Users/Endze/git/NoNameAvailable/text"));
 
 			String currentLine = null;
 
@@ -31,7 +27,6 @@ public class Assembler {
 
 				if (currentLine != null) {
 					vm = implementLineInVM(vm, currentLine);
-					// System.out.println(currentLine);
 				}
 
 			} while (currentLine != null);
@@ -82,10 +77,6 @@ public class Assembler {
 			splittetLine = currentLine.split(" ");
 		}
 
-		// System.out.println(splittetLine[1]);
-
-		// System.out.println(command[0]);
-		// System.out.println(command[1]);
 
 		switch (splittetLine[0]) {
 		case "NOP":
@@ -94,32 +85,31 @@ public class Assembler {
 			break;
 		case "LOAD":
 			commandCode = 0b0001;
-
 			value = Integer.parseInt(splittetLine[1]);
 			opcode = commandCode + (value << 4);
 			break;
 		case "MOV":
 			commandCode = 0b0010;
 			indexSplit = splittetLine[1].split(",");
-			if (splittetLine[1].matches("^\\d*,\\d*$")) {
+			if (splittetLine[1].matches("^\\d+,\\d+$")) {
 				toMem = 0b0;
 				fromMem = 0b0;
 				index_X = Integer.parseInt(indexSplit[1]);
 				index_Y = Integer.parseInt(indexSplit[0]);
-			} else if (splittetLine[1].matches("^[(]\\d*[)],\\d*$")) {
+			} else if (splittetLine[1].matches("^[(]\\d+[)],\\d+$")) {
 				toMem = 0b0;
 				fromMem = 0b1;
 				indexSplit[0] = indexSplit[0].substring(1, indexSplit[0].length() - 1);
 				index_X = Integer.parseInt(indexSplit[1]);
 				index_Y = Integer.parseInt(indexSplit[0]);
-			} else if (splittetLine[1].matches("^\\d*,[(]\\d*[)]$")) {
+			} else if (splittetLine[1].matches("^\\d+,[(]\\d+[)]$")) {
 				toMem = 0b1;
 				fromMem = 0b0;
 				indexSplit[1] = indexSplit[1].substring(1, indexSplit[1].length() - 1);
 				index_X = Integer.parseInt(indexSplit[1]);
 				index_Y = Integer.parseInt(indexSplit[0]);
 			} else {
-				// case "^[(][\\d][)][,][(][\\d][)]$"
+				// case "^[(]\\d[)],[(]\\d[)]$"
 				toMem = 0b1;
 				fromMem = 0b1;
 				indexSplit[0] = indexSplit[0].substring(1, indexSplit[0].length() - 1);

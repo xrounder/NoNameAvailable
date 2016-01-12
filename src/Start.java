@@ -6,13 +6,15 @@ public class Start {
 		VM vm = new VM();
 		Assembler as = new Assembler();
 		
+		
+		as.start(vm);
+		
 		try {
 			Thread.sleep(700);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		as.start(vm);
 		
 		for (int i = 0; i < vm.register.length; i++) {
 

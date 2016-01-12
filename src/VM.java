@@ -122,7 +122,7 @@ public class VM extends Thread {
 				pcounter++;
 				break;
 
-			// Jump the f*ck up!
+			// Jump
 			case JMP:
 				pcounter = wert;
 
