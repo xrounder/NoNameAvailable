@@ -1,0 +1,28 @@
+Anteil |Code     			 | Kommentar
+--------------------------------------------------------------------------------------------------------------------------------
+(0.4%) 10001				 Zeile[00] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(0.4%) 11110010			 Zeile[01] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(0.4%) 11111010000001			 Zeile[02] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(0.4%) 11100010			 Zeile[03] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(0.4%) 10001				 Zeile[04] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(0.4%) 10000011100010			 Zeile[05] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(0.4%) 111111100011			 Zeile[06] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(0.4%) 10000011100010			 Zeile[07] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(0.4%) 111111100011			 Zeile[08] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(0.4%) 111				 Zeile[09] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(0.4%) 111				 Zeile[10] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(0.4%) 100100001			 Zeile[11] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
+(7.29%) 11101100			 Zeile[12] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 1101				 Zeile[13] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 11000				 Zeile[14] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 101000				 Zeile[15] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 100110011			 Zeile[16] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 1000110011			 Zeile[17] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 10001111100010			 Zeile[18] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 111111100011			 Zeile[19] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 10111				 Zeile[20] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 110111				 Zeile[21] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 10000110010			 Zeile[22] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 111100000100			 Zeile[23] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(7.29%) 11001011			 Zeile[24] wurde {18} mal ausgeführt - 7.29% Rechenleistung wurde hier verbraucht.
+(0.4%) 1101				 Zeile[25] wurde  {1} mal ausgeführt - 0.4% Rechenleistung wurde hier verbraucht.
